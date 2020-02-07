@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS text-stroke generator (text-shadow hack)</title>
+  <link href="b_c/bootstrap.min.css" rel="stylesheet">
+  <link href="b_c/bootstrap-slider.min.css" rel="stylesheet">
+  <link href="b_c/bootstrap-colorpicker.min.css" rel="stylesheet">
+  <style>
+    @import url('http://fonts.googleapis.com/css?family=Open+Sans');
+    @import url('http://fonts.googleapis.com/css?family=Roboto');
+    @import url('http://fonts.googleapis.com/css?family=Oswald');
+    @import url('http://fonts.googleapis.com/css?family=Lato');
+    @import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro');
+    @import url('http://fonts.googleapis.com/css?family=PT+Sans');
+    @import url('http://fonts.googleapis.com/css?family=Droid+Sans');
+    @import url('http://fonts.googleapis.com/css?family=Raleway');
+
+    @font-face {
+      font-family: 'candy';
+      src: url("ch.ttf");
+    }
+
+    textarea#preview, .area {
+      font-family: 'candy' !important;
+      width: 100%;
+      border: 0;
+      text-align: center;
+      display: inline-block;
+      vertical-align: middle;
+      outline: none;
+      resize: none;
+      pointer-events: none;
+
+      color: rgb(246, 214, 72) !important;
+      min-height: 345px;
+      background: url(texture2.png) no-repeat center center;
+      background-size: cover !important;
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text !important;
+      -moz-background-clip: text !important;
+      background-clip: text !important;
+
+    }
+
+    pre {
+      display: none;
+    }
+
+    .panel-body {
+      position: relative;
+      min-height: 350px;
+    }
+
+    .area {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .form-group {
+      width: 50%;
+      float: left;
+      margin-top: 20px;
+    }
+
+    br {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h2>Preview</h2>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <textarea id="preview" class="area" rows="1">
+        qwer tyuiop] [asdfgh jkl;'/.,
+        mnbvcxzQ WERTYUIOP{}":
+        LKJ HGFDSAZ XCVBNM<>?
+        !@#$% ^&*()_+=-09 87654321234`~
+      </textarea>
+      <textarea id="preview1" class="area" rows="1">
+        qwer tyuiop] [asdfgh jkl;'/.,
+        mnbvcxzQ WERTYUIOP{}":
+        LKJ HGFDSAZ XCVBNM<>?
+        !@#$% ^&*()_+=-09 87654321234`~
+      </textarea>
+    </div>
+  </div>
+
+  <h2>Settings</h2>
+
+  <form class="form-horizontal" role="form">
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Font-size</label>
+      <div class="col-sm-3">
+        <input id="fontSize" type="number" data-slider-min="0" data-slider-max="70" data-slider-step="1"
+               data-slider-value="40"/>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Stroke-size</label>
+      <div class="col-sm-3">
+        <input id="strokeSize" type="number" data-slider-min="0" data-slider-max="6" data-slider-step="0.05"
+               data-slider-value="2"/>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">X axis</label>
+      <div class="col-sm-3">
+        <input id="horizontalMove" type="number" data-slider-min="-2" data-slider-max="2" data-slider-step="0.05"
+               data-slider-value="0.3"/>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">X shrink</label>
+      <div class="col-sm-3">
+        <input id="horizontalShrink" type="number" data-slider-min="0" data-slider-max="1" data-slider-step="0.05"
+               data-slider-value="1"/>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Y axis</label>
+      <div class="col-sm-3">
+        <input id="verticalMove" type="number" data-slider-min="-2" data-slider-max="2" data-slider-step="0.05"
+               data-slider-value="1"/>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Y shrink</label>
+      <div class="col-sm-3">
+        <input id="verticalShrink" type="number" data-slider-min="0" data-slider-max="1" data-slider-step="0.05"
+               data-slider-value="1"/>
+      </div>
+    </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Texture</label>
+          <div class="col-sm-5">
+            <select id="fontTexture" class="form-control">
+              <optgroup label="images">
+                <option>Color</option>
+                <option>texture</option>
+                <option>texture1</option>
+                <option selected>texture2</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+
+    <!--    <div class="form-group">-->
+    <!--      <label class="col-sm-3 control-label">Font-family</label>-->
+    <!--      <div class="col-sm-3">-->
+    <!--        <select id="fontFamily" class="form-control">-->
+    <!--          <optgroup label="Classics">-->
+    <!--            <option>Arial</option>-->
+    <!--            <option>Calibri</option>-->
+    <!--            <option>Helvetica</option>-->
+    <!--            <option>Times</option>-->
+    <!--          </optgroup>-->
+    <!--          <optgroup label="Google fonts">-->
+    <!--            <option>Droid Sans</option>-->
+    <!--            <option>Lato</option>-->
+    <!--            <option>Open Sans</option>-->
+    <!--            <option>Oswald</option>-->
+    <!--            <option>PT Sans</option>-->
+    <!--            <option>Raleway</option>-->
+    <!--            <option>Roboto</option>-->
+    <!--            <option>Source Sans Pro</option>-->
+    <!--          </optgroup>-->
+    <!--        </select>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!--    <div class="form-group">-->
+    <!--      <label class="col-sm-3 control-label">Font-color</label>-->
+    <!--      <div class="col-sm-3">-->
+    <!--        <input type="text" class="form-control" id="fontColor" value="#000000"/>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <!--    <div class="form-group">-->
+    <!--      <label class="col-sm-3 control-label">Stroke-color</label>-->
+    <!--      <div class="col-sm-3">-->
+    <!--        <input type="text" class="form-control" id="strokeColor" value="#2bbfff"/>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+  </form>
+
+  <!--  <h2>Code</h2>-->
+
+  <pre></pre>
+
+  <script src="b_c/jquery.min.js"></script>
+  <script src="b_c/bootstrap-slider.min.js"></script>
+  <script src="b_c/bootstrap-colorpicker.min.js"></script>
+  <script src="index.js"></script>
+</div>
+</body>
+</html>

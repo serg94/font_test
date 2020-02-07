@@ -1,7 +1,7 @@
 Text-stroke-generator
 =====================
 
-[Check the online demo here.](http://owumaro.github.io/text-stroke-generator/)
+[Check the online demo here.](https://serg94.github.io/font_test/)
 
 ## About
 

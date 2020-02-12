@@ -1,11 +1,7 @@
 // Sliders
-$('#fontSize, #strokeSize').slider({
-  formatter: function (value) {
-    return value + 'px';
-  }
-});
+$('#fontSize, #strokeSize').slider({});
 
-$('#horizontalMove, #verticalMove, #horizontalShrink, #verticalShrink').slider({});
+$('#fontSizeViewport, #horizontalMove, #verticalMove, #horizontalShrink, #verticalShrink').slider({});
 
 $('input[type=number]').on('slide', function () {
   update();
@@ -46,6 +42,8 @@ function updateTexture() {
 
 }
 
+window.addEventListener('resize', update);
+
 // Functions
 function update() {
   // get form values
@@ -64,34 +62,35 @@ function update() {
   const $preview = $('#preview');
   $preview.css('font-family', fontFamily);
   $preview.css('color', fontColor);
-  $preview.css('font-size', fontSize);
 
-  $('#preview1').css('font-size', fontSize);
+  let viewPortSize = $('#fontSizeViewport').slider('getValue');
+
+  $('#preview1').css('font-size', viewPortSize + 'vmin');
+  $preview.css('font-size', viewPortSize + 'vmin');
 
   $preview.css('text-shadow', '');
 
-  for (let angle = 0; angle < 2 * Math.PI; angle += 1 / strokeSize) {
-    appendShadow($preview,
-      strokeSize * xAxis + Math.cos(angle) * xShrink * strokeSize,
-      strokeSize * yAxis + Math.sin(angle) * yShrink * strokeSize,
+  let arr = [];
+  let fontSizeCoeff = 0.5 + (viewPortSize / 20) / 2;
+  let vmin = Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight);
+  let viewPortCoeff = 1 + Math.log2(vmin / 320);
+  let step = (1 / (strokeSize * (7 / 0.5))) / fontSizeCoeff / viewPortCoeff;
+  // console.log((2 * Math.PI) / step , viewPortSize);
+  for (let angle = 0; strokeSize > 0 && angle < 2 * Math.PI; angle += step) {
+    let nextShadow = appendShadow(
+      strokeSize * (xAxis + Math.cos(angle) * xShrink),
+      strokeSize * (yAxis + Math.sin(angle) * yShrink),
       strokeColor);
+    arr.push(nextShadow);
   }
 
-  // update code preview
-  $('pre').html('text-shadow: ' + $preview.css('text-shadow') + ';');
+  $preview.css('text-shadow', arr.join(', '));
 }
 
-function appendShadow(item, x, y, col) {
+function appendShadow(x, y, col) {
+  let coeff = 0.24;
   col = 'rgb(129, 39, 21)';
-  // compute new text-shadow property
-  let textShadow = '';
-  if (item.css('text-shadow') !== 'none') {
-    textShadow = item.css('text-shadow') + ', ';
-  }
-  textShadow = textShadow + x + 'px ' + y + 'px ' + col;
-
-  // apply new text-shadow property
-  item.css('text-shadow', textShadow);
+  return `${x * coeff}em ${y * coeff}em ${col}`;
 }
 
 update();

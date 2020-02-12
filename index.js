@@ -65,14 +65,15 @@ function update() {
 
   let viewPortSize = $('#fontSizeViewport').slider('getValue');
 
-  $('#preview1').css('font-size', viewPortSize + 'vmin');
-  $preview.css('font-size', viewPortSize + 'vmin');
+  $('#preview1').css('font-size', viewPortSize + 'vw');
+  $preview.css('font-size', viewPortSize + 'vw');
 
   $preview.css('text-shadow', '');
 
   let arr = [];
   let fontSizeCoeff = 0.5 + (viewPortSize / 20) / 2;
-  let vmin = Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight);
+  // let vmin = Math.min(document.documentElement.clientWidth, document.documentElement.clientHeight);
+  let vmin = document.documentElement.clientWidth;
   let viewPortCoeff = 1 + Math.log2(vmin / 320);
   let step = (1 / (strokeSize * (7 / 0.5))) / fontSizeCoeff / viewPortCoeff;
   // console.log((2 * Math.PI) / step , viewPortSize);
